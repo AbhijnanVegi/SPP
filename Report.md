@@ -31,6 +31,7 @@ Compiling the whetstone benchmark with the flag `-O3` we get the following resul
 Loops: 1000000, Iterations: 1, Duration: 4 sec.
 C Converted Double Precision Whetstones: 25000.0 MIPS
 ```
+Using the `icc` compiler instead of `gcc` gives us 10 GFLOPS even with the `-O3` flag
 #### My benchmark
 
 ### Memory Specifications

@@ -4,3 +4,4 @@
 [submodule "blis"]
 	path = blis
 	url = git@github.com:flame/blis.git
+  ignore = dirty

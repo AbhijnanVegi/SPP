@@ -18,6 +18,21 @@
 |          Cache           | 512 KiB, 4 MiB, 8 MiB |
 |     Memory Bandwidth     |      68.27 GB/s       |
 
+
+#### Theoretical FLOPS
+#### Whetstone benchmark
+Running the whetstone benchmark with 10^6^ loops gives a total of 6.25 GFLOPS.
+```
+Loops: 1000000, Iterations: 1, Duration: 16 sec.
+C Converted Double Precision Whetstones: 6250.0 MIPS
+```
+Compiling the whetstone benchmark with the flag `-O3` we get the following result
+```
+Loops: 1000000, Iterations: 1, Duration: 4 sec.
+C Converted Double Precision Whetstones: 25000.0 MIPS
+```
+#### My benchmark
+
 ### Memory Specifications
 
 |      Specification       |   Value    |
@@ -44,4 +59,4 @@
    |     Read      |       |
    |     Write     |       |
 
-   
+

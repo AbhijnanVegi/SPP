@@ -1,3 +1,6 @@
 [submodule "STREAM"]
 	path = STREAM
 	url = git@github.com:jeffhammond/STREAM.git
+[submodule "blis"]
+	path = blis
+	url = git@github.com:flame/blis.git

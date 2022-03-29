@@ -1,7 +1,7 @@
 # Software Programming for Performance
 >  **Name : Abhijnan Vegi**  
 >  **Roll No : 2020101004**  
->  **Assignment 1**
+>  **Assignment 1**  
 
 
 ## Know your Computer
@@ -21,7 +21,7 @@
 
 #### Theoretical FLOPS
 #### Whetstone benchmark
-Running the whetstone benchmark with 10^6^ loops gives a total of 6.25 GFLOPS.
+Running the whetstone benchmark with \\(10^6\\) loops gives a total of 6.25 GFLOPS.
 ```
 Loops: 1000000, Iterations: 1, Duration: 16 sec.
 C Converted Double Precision Whetstones: 6250.0 MIPS
@@ -59,5 +59,4 @@ Using the `icc` compiler instead of `gcc` gives us 10 GFLOPS even with the `-O3`
    |     Size      | 1 TiB |
    |     Read      |       |
    |     Write     |       |
-
 

@@ -1,5 +1,5 @@
 CC = icc
-CFLAGS = -g -O3 -mfma -mavx2 -qopt-report
+CFLAGS = -g -O3 -mfma -mavx2 -qopt-report -qopenmp 
 # CFLAGS = -g -O3 -mfma -mavx2 
 INCLUDES = includes
 OBJECTS = utils.o

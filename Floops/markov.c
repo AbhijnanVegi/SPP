@@ -9,6 +9,8 @@ Result benchmark(long loopcount) {
     double a = 0.5f, x = 1.0f, c = 1.0f;
     Timer t = newTimer();
     tick(t);
+    #pragma ivdep
+    #pragma omp simd
     for (long i = 0; i < loopcount; i++)
     {
         x = a * x + c;

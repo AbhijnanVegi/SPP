@@ -1,4 +1,6 @@
 #include <stdbool.h>
+#include <sys/time.h>
+
 typedef struct Timer* Timer;
 
 struct Timer {

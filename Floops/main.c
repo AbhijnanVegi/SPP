@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "utils.h"
 #include "benchmark.h"
 
 int main(int argc, char* argv[]) {
-    Timer t = newTimer();
 
     long loopcount = 1e9;
     if (argc > 1)

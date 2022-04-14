@@ -1,6 +1,7 @@
 [submodule "STREAM"]
 	path = STREAM
 	url = git@github.com:jeffhammond/STREAM.git
+	ignore = dirty
 [submodule "blis"]
 	path = blis
 	url = git@github.com:flame/blis.git

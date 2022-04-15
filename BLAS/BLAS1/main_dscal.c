@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <cblas.h>
 
 #include "cblas.h"
 #include "utils.h"
@@ -27,12 +26,12 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    float *X = frandarr(N);
+    double *X = drandarr(N);
 
     struct Timer* t = newTimer();
 
     tick(t);
-    cblas_sscal(N, 1.5, X, stride);
+    cblas_dscal(N, 1.5, X, stride);
 
     free(X);
 

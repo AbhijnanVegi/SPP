@@ -31,7 +31,7 @@ Compiling the whetstone benchmark with the flag `-O3` we get the following resul
 Loops: 1000000, Iterations: 1, Duration: 4 sec.
 C Converted Double Precision Whetstones: 25000.0 MIPS
 ```
-Using the `icc` compiler instead of `gcc` gives us 10 GFLOPS even with the `-O3` flag
+Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3` flag
 #### My benchmark
 
 ### Memory Specifications
@@ -60,3 +60,40 @@ Using the `icc` compiler instead of `gcc` gives us 10 GFLOPS even with the `-O3`
    |     Read      |       |
    |     Write     |       |
 
+
+
+## Know your Cluster
+
+
+
+## BLAS Problems
+
+### 3.1 BLAS Level 1
+
+#### xSCAL
+
+- Operational Intensity : $0.125$ FLOP/Byte for `float`, $0.075$ FLOP/Byte for `double`
+
+- Execution times ( input size : $1e^8$ )
+
+  ```
+  sscal with gcc : 50ms
+  dscal with gcc : 100ms
+  
+  sscal with icc : 55ms
+  dscal with icc : 110ms
+  ```
+
+- Baseline execution time : 400ms
+  Best execution time : 50ms
+
+- Speedup : $8\times$
+
+- Baseline GFLOPS : 0.25
+  Best GFLOPS : 2.0
+
+- Optimization strategies : Vectorization
+
+- Memory bandwidth : 16 GB/s
+
+- The problem is memory bound

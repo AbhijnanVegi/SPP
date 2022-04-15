@@ -90,3 +90,22 @@ for (int i = 0; i < omp_get_max_threads(); i++)
 ```
 
 This gives around 400 GFLOPS with both `gcc` and `icc` compiler. Using `FMA` however brings this down to 120 GFLOPS. 
+
+
+
+## BLAS Problems
+
+### xSCAL
+
+#### Approach 1
+
+For this problem a single loop is sufficient.
+
+```c
+for (int i = 0; i < N; i++)
+{
+    X[i * incX] *= alpha;
+}
+```
+
+This code is vectorized automatically for stride 1 with the -O3 flag. To improve performance we could try parallelizing this loop. Interestingly adding OpenMP pragma’s has no effect on performance, since it only uses one thread.

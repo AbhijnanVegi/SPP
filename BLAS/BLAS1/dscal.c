@@ -1,0 +1,13 @@
+#include "cblas.h"
+
+void cblas_dscal(const int N, const double alpha, double *X, const int incX);
+
+void cblas_dscal(const int N, const double alpha, double *X, const int incX)
+{
+    #pragma omp parallel for
+    #pragma ivdep
+    for (int i = 0; i < N; i++)
+    {
+        X[i * incX] *= alpha;
+    }
+}

@@ -19,4 +19,19 @@ float* frandarr(int n) {
     return X;
 }
 
+double* drandarr(int n) {
+    double *X = (double*)malloc(sizeof(double) * n);
+
+    if (X == NULL) {
+        printf("Error intialising array\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        X[i] = drand48();
+    }
+
+    return X;
+}
+
 #endif

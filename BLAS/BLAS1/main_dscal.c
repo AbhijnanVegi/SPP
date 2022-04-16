@@ -39,6 +39,7 @@ int main(int argc, char* argv[]) {
 
     printf("Runtime : %lf\n", time);
     printf("Flops : %lf\n", (double) N / stride / time / 1e9);
+    printf("Bandwidth : %lf\n", (double) N * sizeof(double) / time / 1e9);
 
     return 0;
 }

@@ -73,7 +73,7 @@ Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3
 
 #### xSCAL
 
-- Operational Intensity : $0.125$ FLOP/Byte for `float`, $0.075$ FLOP/Byte for `double`
+- Operational Intensity : $0.25$ FLOP/Byte for `float`, $0.125$ FLOP/Byte for `double`
 
 - Execution times ( input size : $1e^8$ )
 
@@ -95,8 +95,74 @@ Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3
 
 - Optimization strategies : Vectorization
 
+- Memory bandwidth : 8 GB/s
+
+- The problem is CPU bound!
+![SSCAL](../BLAS/plots/sscal.png)
+![DSCAL](../BLAS/plots/dscal.png)
+
+#### xDOT
+
+- Operational Intensity : 0.25 FLOP/Byte for float and $0.125$ FLOP/Byte for double
+
+- Execution times (Input size $1e^8$)
+
+  ```
+  sdot with gcc : 50ms
+  sdot with icc : 55ms
+  
+  ddot with gcc : 75ms
+  ddot with icc : 80ms
+  ```
+
+- Baseline execution time : 700ms
+  Best execution time : 50ms
+
+- Speedup : $14\times$
+
+- Baseline GFLOPS : 0.3
+  Best GFLOPS : 4 
+
+- Optimization strategies : O3 and vectorization
+
 - Memory bandwidth : 16 GB/s
 
-- The problem is memory bound
+- Problem is memory bound
 
-#### SDOT
+![SDOT](../BLAS/plots/sdot.png)
+
+![DDOT](../BLAS/plots/ddot.png)
+
+#### XAXPY
+
+- Operational Intensity
+
+- Execution times (Input size $1e^8$)
+
+  ```
+  saxpy with gcc : 60ms
+  saxpy with icc : 75ms
+  
+  daxpy with gcc : 115ms
+  daxpy with icc : 130ms
+  ```
+
+- Baseline execution time : 650ms
+  Best execution time : 60ms
+
+- Speedup : $10\times$
+
+- Baseline GFLOPS : 0.3
+
+  Best GFLOPS : 3.5
+
+- Optimization strategies : O3 and Vectorization
+
+- Memory bandwidth : 16 GB/s
+
+- Problem is memory bound
+
+![SAXPY](../BLAS/plots/saxpy.png)
+
+![DAXPY](../BLAS/plots/daxpy.png)
+

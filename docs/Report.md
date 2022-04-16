@@ -64,7 +64,8 @@ Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3
 
 ## Know your Cluster
 
-
+1. ADA peak FLOPS : 70.66 TFLOPS
+2. Abacus Peak FLOPS : 14 TFLOPS
 
 ## BLAS Problems
 
@@ -97,3 +98,5 @@ Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3
 - Memory bandwidth : 16 GB/s
 
 - The problem is memory bound
+
+#### SDOT

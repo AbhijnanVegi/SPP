@@ -4,15 +4,11 @@
 #include <omp.h>
 
 #include "utils.h"
+#include "benchmark.h"
 
-struct Result {
-    double time;
-    double e;
-};
 
-struct Result benchmark(void);
 
-int num_words = (int)1e8;
+int num_words = (int)1e7;
 
 int main() {
     printf("Running memory benchmark...\n");
@@ -25,8 +21,7 @@ int main() {
     printf("Using %d threads\n", omp_get_max_threads());
 
     for (int i = 0; i < runs; i++) {
-        struct Result res = benchmark();
-        // printf("Run %d: %.2f seconds. Random output %lf\n", i, res.time, res.e);
+        struct Result res = benchmark(num_words);
         double t = res.time;
         tott += t;
         if (t < mint) mint = t;
@@ -45,25 +40,3 @@ int main() {
     return 0;
 }
 
-struct Result benchmark(void) {
-    long long *a = malloc(sizeof(long long) * num_words);
-    long long *b = malloc(sizeof(long long) * num_words);
-
-    Timer t = newTimer();
-
-    double e = 0;
-
-    tick(t);
-    #pragma omp parallel for
-    for (int i = 0; i < num_words; i++)
-    {
-        e = a[i];
-    }
-    double time = tock(t);
-
-    free(a);
-    free(b);
-
-    struct Result res = {time, e};
-    return res;
-}

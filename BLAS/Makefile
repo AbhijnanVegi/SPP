@@ -1,11 +1,12 @@
 INCLUDES = includes
 BLAS1_SRC = BLAS1
+BLAS2_SRC = BLAS2
 
 CC = gcc
 CFLAGS = -g -O3 -fopt-info -I$(INCLUDES) -march=native -mtune=native -fopenmp
-all : blas1
+all : blas1 blas2
 
-blas1: $(BLAS1_SRC)/main_sscal.c
+blas1: $(BLAS1_SRC)/*.c
 	$(CC) $(CFLAGS) $(BLAS1_SRC)/sscal.c -c
 	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_sscal.c sscal.o -o bin/sscal 
 
@@ -23,6 +24,14 @@ blas1: $(BLAS1_SRC)/main_sscal.c
 
 	$(CC) $(CFLAGS) $(BLAS1_SRC)/daxpy.c -c
 	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_daxpy.c daxpy.o -o bin/daxpy
+
+blas2: $(BLAS2_SRC)/*.c
+	$(CC) $(CFLAGS) $(BLAS2_SRC)/sgemv.c -c
+	$(CC) $(CFLAGS) $(BLAS2_SRC)/main_sgemv.c sgemv.o -o bin/sgemv
+
+	$(CC) $(CFLAGS) $(BLAS2_SRC)/dgemv.c -c
+	$(CC) $(CFLAGS) $(BLAS2_SRC)/main_dgemv.c dgemv.o -o bin/dgemv
+
 
 
 cblas:

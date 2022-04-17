@@ -68,11 +68,11 @@ for (long i = 0; i < loopcount; i++)
 }
 ```
 
-Using `icc` we achieve around 350 GFLOPS, which is around $8\times$ improvement over the last iteration. This is speedup matches the expectations from using 8 cores on my CPU instead of just 1. However this isn’t the max GFLOPS capable since `icc` doesn’t use the `AVX2` supported, on using which there should be expected speedup of $2\times$. 
+Using `icc` we achieve around 350 GFLOPS, which is around $8\times$ improvement over the last iteration. This is speedup matches the expectations from using 8 cores on my CPU instead of just 1. However this isn’t the max GFLOPS capable since `icc` doesn’t use the `AVX2` supported on AMD processors.
 
 ### Approach 5
 
-Due to some unknown compiler optimizations, the above code wasn’t running as expected with `gcc` so I run the benchmark six times in parallel. So the loop now looks like 
+Due to some unknown compiler optimizations, the above code wasn’t running as expected with `gcc` so I run the benchmark sixteen times in parallel. So the loop now looks like 
 
 ```c
 #pragma omp parallel for
@@ -97,8 +97,6 @@ This gives around 400 GFLOPS with both `gcc` and `icc` compiler. Using `FMA` how
 
 ### xSCAL
 
-#### Approach 1
-
 For this problem a single loop is sufficient.
 
 ```c
@@ -109,3 +107,94 @@ for (int i = 0; i < N; i++)
 ```
 
 This code is vectorized automatically for stride 1 with the -O3 flag. To improve performance we could try parallelizing this loop. Interestingly adding OpenMP pragma’s has no effect on performance, since it only uses one thread.
+
+### xDOT
+
+Like the other BLAS Level 1 problems, its a for loop that only benefits from O3 and Vectorization. OpenMP has no effect on this function.
+
+```c
+float dot = 0.0;
+for (int i = 0; i < N / (incX > incY ? incX : incY); i++)
+{
+    dot += X[i * incX] * Y[i * incY];
+}
+return dot;
+```
+
+### xAXPY
+
+```c
+for (int i = 0; i < N / (incX > incY ? incX : incY); i++)
+{
+    Y[i * incY] += alpha * X[i * incX];
+}
+```
+
+Like the other BLAS Level 1 problems, its a for loop that only benefits from O3 and Vectorization. OpenMP has no effect on this function.
+
+### xGEMV
+
+We have to deal with different cases in this problem.
+
+1. Matrix is row major and not Trans or Matrix is column major and is Trans
+   In this case our loop looks like
+
+   ```c
+   for (int i = 0; i < lenY; i += incY)
+   {
+       float temp = 0.0;
+       for (j = 0; j < lenX; j += incX)
+       {
+           temp += X[j] * A[lda * i + j];
+       }
+       Y[i] += alpha * temp;
+   }
+   ```
+
+   This code is auto vectorized with the `-O3` flag. Vectorization in this case provides a speedup of up to $4-5\times$. However this can be further optimized using `OpenMP` pragmas. The outer loop can be parallelized by adding `#pragma omp parallel for`.
+
+   ```c
+   #pragma omp parallel for
+   for (int i = 0; i < lenY; i += incY)
+   {
+       float temp = 0.0;
+       for (j = 0; j < lenX; j += incX)
+       {
+           temp += X[j] * A[lda * i + j];
+       }
+       Y[i] += alpha * temp;
+   }
+   ```
+
+   This provides a speedup of $7-8\times$.
+
+2. Matrix is row major and is Trans or Matrix is column major and is not Trans
+   In this case our loop looks like
+
+   ```c
+   for (j = 0; j < lenX; j += incX)
+   {
+       const float temp = alpha * X[j];
+       for (i = 0; i < lenY; i += incY)
+       {
+           Y[i] += temp * A[lda * j + i];
+       }
+   }
+   ```
+
+   With `-O3` flag, our code is auto vectorized an provides a speed $8-10\times$. Due to loop dependency we cannot parallelize the outer loop but we can try parallelizing the inner loop, but this however slows down our process by $4\times$. However limiting the number of threads to 2 gives us a performance boost of $1.5\times$ our previous best. Our final code looks like
+
+   ```c
+   for (j = 0; j < lenX; j += incX)
+   {
+       const float temp = alpha * X[j];
+       #pragma omp parallel for num_threads(2)
+       for (i = 0; i < lenY; i += incY)
+       {
+           Y[i] += temp * A[lda * j + i];
+       }
+   }
+   ```
+
+   
+

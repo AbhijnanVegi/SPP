@@ -1,4 +1,4 @@
-# Evolution of benchmark
+# Evolution of performance
 
 ## CPU Benchmark
 
@@ -130,7 +130,7 @@ for (int i = 0; i < N / (incX > incY ? incX : incY); i++)
 }
 ```
 
-Like the other BLAS Level 1 problems, its a for loop that only benefits from O3 and Vectorization. OpenMP has no effect on this function.
+Like the other BLAS Level 1 problems, its a for loop that only benefits from `-O3` and Vectorization. `OpenMP` has no effect on this function.
 
 ### xGEMV
 
@@ -196,5 +196,8 @@ We have to deal with different cases in this problem.
    }
    ```
 
-   
+
+### xGEMM
+
+
 

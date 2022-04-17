@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <cblas.h>
 
 #include "cblas.h"
 #include "utils.h"

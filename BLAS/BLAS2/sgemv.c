@@ -16,9 +16,7 @@ void cblas_sgemv(const enum CBLAS_ORDER order,
     int i, j;
     int lenX, lenY;
 
-    const int Trans = (TransA != CblasConjTrans) ? TransA : CblasTrans;
-
-    if (Trans == CblasNoTrans)
+    if (TransA == CblasNoTrans)
     {
         lenX = N;
         lenY = M;
@@ -35,7 +33,7 @@ void cblas_sgemv(const enum CBLAS_ORDER order,
         Y[i] *= beta;
     }
 
-    if ((order == CblasRowMajor && Trans == CblasNoTrans) || (order == CblasColMajor && Trans == CblasTrans))
+    if ((order == CblasRowMajor && TransA == CblasNoTrans) || (order == CblasColMajor && TransA == CblasTrans))
     {
 #pragma omp parallel for
         for (int i = 0; i < lenY; i += incY)
@@ -49,7 +47,7 @@ void cblas_sgemv(const enum CBLAS_ORDER order,
             Y[i] += alpha * temp;
         }
     }
-    else if ((order == CblasRowMajor && Trans == CblasTrans) || (order == CblasColMajor && Trans == CblasNoTrans))
+    else if ((order == CblasRowMajor && TransA == CblasTrans) || (order == CblasColMajor && TransA == CblasNoTrans))
     {
         for (j = 0; j < lenX; j += incX)
         {

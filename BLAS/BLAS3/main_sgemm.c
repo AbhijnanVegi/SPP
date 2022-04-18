@@ -31,6 +31,11 @@ int main(int argc, char *argv[])
     }
 
     int K = atoi(argv[3]);
+    if ( K <= 0)
+    {
+        printf("K must be positive\n");
+        return 1;
+    }
 
 
     const int lda = N;
@@ -47,6 +52,7 @@ int main(int argc, char *argv[])
 
     free(A);
     free(B);
+    free(C);
 
     printf("Runtime : %lf\n", time);
     printf("Flops : %lf\n", ((double)M * N * K * 3 + M * N) / time / 1e9);

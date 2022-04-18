@@ -37,7 +37,7 @@ def plot(op : str) -> None:
     """
     Plots the results of benchmark
     """
-    args = [3, 5 ,10 , 50 , 100]
+    args = [3, 10 ,25 , 50 , 100]
     perf = []
 
         

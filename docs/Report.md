@@ -139,7 +139,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 #### xAXPY
 
-- Operational Intensity
+- Operational Intensity : 0.25 for float and 0.125 for double
 
 - Execution times (Input size $1e^8$)
 
@@ -172,7 +172,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 ### 3.2 BLAS Level 2
 #### xGEMV
-- Operational Intensity : $\frac{3MN + M}{MN+M+N}$
+- Operational Intensity : $\frac{3MN + M}{sizeof(unit) \times(MN+M+N)}$
 
 - Execution times (Input size $1e^8$)
 
@@ -201,7 +201,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 ### 3.3 BLAS Level 3
 #### xGEMM
 
-- Operational Intensity : $\frac{3MNK+MN}{MN+NK+MN}$
+- Operational Intensity : $\frac{3MNK+MN}{sizeof(unit) \times (MN+NK+MN)}$
 
 - Execution times (Matrix sizes $1e^4$)
 
@@ -244,7 +244,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 ## 2D Stencil
 
-- Operational Intensity : $k^2$
+- Operational Intensity : $\frac{2\times k^2\times hw}{sizeof(unit)\times{hw + k^2}}$
 
 - Execution times
 

@@ -8,7 +8,7 @@
 
 
 
-int num_words = (int)1e7;
+int num_words = (int)1e8;
 
 int main() {
     printf("Running memory benchmark...\n");

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <cblas.h>
 
 #include "cblas.h"
 #include "utils.h"
@@ -51,8 +50,8 @@ int main(int argc, char *argv[])
     free(C);
 
     printf("Runtime : %lf\n", time);
-    printf("Flops : %lf\n", ((double)M * N * 3 + M) / time / 1e9);
-    printf("Bandwidth : %lf\n", (M * N + M + N) * sizeof(double) / time / 1e9);
+    printf("Flops : %lf\n", ((float)M * N * K * 3 + M * N) / time / 1e9);
+    printf("Bandwidth : %lf\n", (M * N + M * K + K * N) * sizeof(double) / time / 1e9);
 
     return 0;
 }

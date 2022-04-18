@@ -112,7 +112,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 - Execution times (Input size $1e^8$)
 
   ```
-  sdot with gcc : 50ms
+  sdot with gcc : 40ms
   sdot with icc : 55ms
   
   ddot with gcc : 75ms
@@ -120,7 +120,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
   ```
 
 - Baseline execution time : 700ms
-  Best execution time : 50ms
+  Best execution time : 40ms
 
 - Speedup : $14\times$
 
@@ -170,6 +170,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 ![DAXPY](../BLAS/plots/daxpy.png)
 
+### 3.2 BLAS Level 2
 #### xGEMV
 - Operational Intensity : 0.25 FLOP/Byte for float and $0.125$ FLOP/Byte for double
 
@@ -197,6 +198,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 - Problem is CPU bound
 
+### 3.3 BLAS Level 3
 #### xGEMM
 
 - Operational Intensity : 
@@ -207,7 +209,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
   sgemm with gcc : 38ms
   sgemm with icc : 60ms
   
-  dgemm with gcc : 95ms
+  dgemm with gcc : 80ms
   dgemm with icc : 95ms
   ```
 
@@ -224,3 +226,18 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 - Memory bandwidth : 
 
 - Problem is CPU bound
+
+### Comparision with blis
+
+| Operation | My Implementation | Blis  |
+| :-------: | :---------------: | :---: |
+|  `sscal`  |       50ms        | 50ms  |
+|  `dscal`  |       100ms       | 100ms |
+|  `sdot`   |       40ms        | 40ms  |
+|  `ddot`   |       75ms        | 77ms  |
+|  `saxpy`  |       58ms        | 56ms  |
+|  `daxpy`  |       112ms       | 113ms |
+|  `sgemv`  |       15ms        | 12ms  |
+|  `dgemv`  |       28ms        | 28ms  |
+|  `sgemm`  |       38ms        | 25ms  |
+|  `dgemm`  |       80ms        | 50ms  |

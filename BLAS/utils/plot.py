@@ -74,9 +74,4 @@ def plot(op : str) -> None:
 
 
 if __name__ == "__main__":
-    plot("sscal")
-    plot("dscal")
-    plot("sdot")
-    plot("ddot")
-    plot("saxpy")
-    plot("daxpy")
+    ...

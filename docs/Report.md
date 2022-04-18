@@ -21,7 +21,7 @@
 
 #### Theoretical FLOPS
 #### Whetstone benchmark
-Running the whetstone benchmark with \\(10^6\\) loops gives a total of 6.25 GFLOPS.
+Running the whetstone benchmark with \\(10^6\\) loops gives a total of 6.25 GIPS.
 ```
 Loops: 1000000, Iterations: 1, Duration: 16 sec.
 C Converted Double Precision Whetstones: 6250.0 MIPS
@@ -34,6 +34,8 @@ C Converted Double Precision Whetstones: 25000.0 MIPS
 Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3` flag
 #### My benchmark
 
+My benchmark has been able to achieve 400 GFLOPS.
+
 ### Memory Specifications
 
 |      Specification       |   Value    |
@@ -41,6 +43,8 @@ Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3
 |       Memory size        |   32 GiB   |
 |           Type           |    DDR4    |
 | Maximum Memory Bandwidth | 34.13 GB/s |
+
+My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 ### Storage Specifications
 
@@ -133,7 +137,7 @@ Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3
 
 ![DDOT](../BLAS/plots/ddot.png)
 
-#### XAXPY
+#### xAXPY
 
 - Operational Intensity
 
@@ -166,3 +170,57 @@ Using the `icc` compiler instead of `gcc` gives us 10000 MIPS even with the `-O3
 
 ![DAXPY](../BLAS/plots/daxpy.png)
 
+#### xGEMV
+- Operational Intensity : 0.25 FLOP/Byte for float and $0.125$ FLOP/Byte for double
+
+- Execution times (Input size $1e^8$)
+
+  ```
+  sgemv with gcc : 15ms
+  sgemv with icc : 19ms
+  
+  dgemv with gcc : 28ms
+  dgemv with icc : 32ms
+  ```
+
+- Baseline execution time : 300ms
+  Best execution time : 15ms
+
+- Speedup : $20\times$
+
+- Baseline GFLOPS : 0.2
+  Best GFLOPS : 10
+
+- Optimization strategies : `-O3` , parallelization with OpenMP and vectorization
+
+- Memory bandwidth : 28 GB/s
+
+- Problem is CPU bound
+
+#### xGEMM
+
+- Operational Intensity : 
+
+- Execution times (Matrix sizes $1e^4$)
+
+  ```
+  sgemm with gcc : 38ms
+  sgemm with icc : 60ms
+  
+  dgemm with gcc : 95ms
+  dgemm with icc : 95ms
+  ```
+
+- Baseline execution time : 2700ms
+  Best execution time : 38ms
+
+- Speedup : $71 \times$
+
+- Baseline GFLOPS : 
+  Best GFLOPS : 
+
+- Optimization strategies : `-O3`, parallelization with OpenMP and vectorization
+
+- Memory bandwidth : 
+
+- Problem is CPU bound

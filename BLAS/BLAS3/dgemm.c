@@ -47,6 +47,7 @@ void cblas_dgemm(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA
         ldy = lda;
     }
 
+#pragma omp parallel for
     for (int i = 0; i < t1; i++)
     {
         for (int j = 0; j < t2; j++)
@@ -59,21 +60,20 @@ void cblas_dgemm(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA
     {
         for (int k = 0; k < K; k++)
         {
+#pragma omp parallel for
             for (int i = 0; i < t1; i++)
             {
                 const double temp = alpha * X[ldx * i + k];
-                if (temp != 0.0)
+                for (int j = 0; j < t2; j++)
                 {
-                    for (int j = 0; j < t2; j++)
-                    {
-                        C[ldc * i + j] += temp * Y[ldy * k + j];
-                    }
+                    C[ldc * i + j] += temp * Y[ldy * k + j];
                 }
             }
         }
     }
     else if (TransX == CblasTrans && TransY == CblasTrans)
     {
+#pragma omp parallel for
         for (int i = 0; i < t1; i++)
         {
             for (int j = 0; j < t2; j++)
@@ -91,15 +91,13 @@ void cblas_dgemm(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA
     {
         for (int k = 0; k < K; k++)
         {
+#pragma omp parallel for
             for (int i = 0; i < t1; i++)
             {
                 const double temp = alpha * X[ldx * k + i];
-                if (temp != 0.0)
+                for (int j = 0; j < t2; j++)
                 {
-                    for (int j = 0; j < t2; j++)
-                    {
-                        C[ldc * i + j] += temp * Y[ldy * k + j];
-                    }
+                    C[ldc * i + j] += temp * Y[ldy * k + j];
                 }
             }
         }
@@ -108,6 +106,7 @@ void cblas_dgemm(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA
     {
         for (int i = 0; i < t1; i++)
         {
+#pragma omp parallel for
             for (int j = 0; j < t2; j++)
             {
                 double temp = 0.0;

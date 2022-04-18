@@ -66,6 +66,8 @@ int main(int argc, char *argv[])
     double time = tock(t);
 
     free(X);
+    free(Y);
+    free(A);
 
     printf("Runtime : %lf\n", time);
     printf("Flops : %lf\n", ((double)M * N * 3 + M) / time / 1e9);

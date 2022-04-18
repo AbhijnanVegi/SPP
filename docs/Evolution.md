@@ -199,5 +199,39 @@ We have to deal with different cases in this problem.
 
 ### xGEMM
 
+The optimizations in all cases pretty much the same.
 
+In case of all matrices being not transposed, we have this for loop for our computation.
 
+```c
+for (int k = 0; k < K; k++)
+{
+    for (int i = 0; i < t1; i++)
+    {
+        const float temp = alpha * X[ldx * i + k];
+        for (int j = 0; j < t2; j++)
+        {
+            C[ldc * i + j] += temp * Y[ldy * k + j];
+        }
+    }
+}
+```
+
+This code is auto vectorized when using `-O3` flag giving a speedup of $13.5\times$. However this code also benefit from multi threading, by using OpenMP pragma
+
+```c
+for (int k = 0; k < K; k++)
+{
+#pragma omp parallel for
+    for (int i = 0; i < t1; i++)
+    {
+        const float temp = alpha * X[ldx * i + k];
+        for (int j = 0; j < t2; j++)
+        {
+            C[ldc * i + j] += temp * Y[ldy * k + j];
+        }
+    }
+}
+```
+
+This gives a further speedup of $5.25\times$

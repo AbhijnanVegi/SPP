@@ -12,25 +12,28 @@ int main(int argc, char* argv[]) {
         if (k < 0) 
         {
             printf("k must be positive\n");
+            exit(1);
         }
-        exit(1);
     }
 
     enum ImageType typ = HD;
 
     float *X, *S, *Y;
+    int nx, ny;
     if (typ == HD)
     {
-        X = (float *) malloc(1920 * 1080 * sizeof(float));
-        S = (float *) malloc(k * k * sizeof(float));
-        Y = (float *) malloc(1920 * 1080 * sizeof(float));
+        nx = 1920;
+        ny = 1080;
     }
     else if (typ == UHD)
     {
-        X = (float *) malloc(3840 * 2160 * sizeof(float));
-        S = (float *) malloc(k * k * sizeof(float));
-        Y = (float *) malloc(3840 * 2160 * sizeof(float));
+        nx = 3840;
+        ny = 2160;
     }
+
+    X = (float*)malloc(nx * ny * sizeof(float));
+    Y = (float*)malloc(nx * ny * sizeof(float));
+    S = (float *) malloc(k * k * sizeof(float));
 
     Timer t = newTimer();
 
@@ -43,6 +46,8 @@ int main(int argc, char* argv[]) {
     free(Y);
 
     printf("Runtime : %lf\n", time);
+    printf("Flops : %lf\n", (double)nx * ny * k * k * 2 / time/1e9);
+    printf("Bandwidth : %lf\n", (double)2 * nx * ny * sizeof(float) / time / 1e9);
 
     return 0;
 }

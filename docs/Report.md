@@ -50,19 +50,19 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 1. **SSD**
 
-   | Specification |  Value  |
-   | :-----------: | :-----: |
-   |     Size      | 256 GiB |
-   |     Read      |         |
-   |     Write     |         |
+   | Specification |   Value   |
+   | :-----------: | :-------: |
+   |     Size      |  256 GiB  |
+   |     Read      | 2400 MB/s |
+   |     Write     | 950 MB/s  |
 
 2. **HDD**
 
-   | Specification | Value |
-   | :-----------: | :---: |
-   |     Size      | 1 TiB |
-   |     Read      |       |
-   |     Write     |       |
+   | Specification |  Value   |
+   | :-----------: | :------: |
+   |     Size      |  1 TiB   |
+   |     Read      | 160 MB/s |
+   |     Write     | 40 MB/s  |
 
 
 
@@ -172,7 +172,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 ### 3.2 BLAS Level 2
 #### xGEMV
-- Operational Intensity : 0.25 FLOP/Byte for float and $0.125$ FLOP/Byte for double
+- Operational Intensity : $\frac{3MN + M}{MN+M+N}$
 
 - Execution times (Input size $1e^8$)
 
@@ -201,7 +201,7 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 ### 3.3 BLAS Level 3
 #### xGEMM
 
-- Operational Intensity : 
+- Operational Intensity : $\frac{3MNK+MN}{MN+NK+MN}$
 
 - Execution times (Matrix sizes $1e^4$)
 
@@ -218,8 +218,8 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 
 - Speedup : $71 \times$
 
-- Baseline GFLOPS : 
-  Best GFLOPS : 
+- Baseline GFLOPS : 1.12
+  Best GFLOPS : 7
 
 - Optimization strategies : `-O3`, parallelization with OpenMP and vectorization
 
@@ -241,3 +241,41 @@ My memory benchmark has been able to achieve a total of 33.5 GB/s.
 |  `dgemv`  |       28ms        | 28ms  |
 |  `sgemm`  |       38ms        | 25ms  |
 |  `dgemm`  |       80ms        | 50ms  |
+
+## 2D Stencil
+
+- Operational Intensity : $k^2$
+
+- Execution times
+
+  ```
+  HD:
+  gcc : 10ms
+  icc : 50ms
+  
+  UHD:
+  gcc : 30ms
+  icc : 130ms
+  ```
+
+  `icc` looks heavily unoptimized. This might be due to the fact that its being tested on an AMD processor rather than an Intel one.
+
+- Baseline execution time : 130ms
+  Best execution time : 10ms
+
+  > Note that the baseline execution time is after compiling with gcc rather than icc
+
+- Speedup : $13\times$
+
+- With k = 3 and HD image
+  Baseline GFLOPS : 0.32
+  Best GFLOPS : 3.87
+
+- Optimization strategies : `-O3` and parallelization with openmp
+
+- Memory bandwidth : 1.12 GB/s
+
+-  The problem is compute bound
+
+On HD image with varying stencil size the runtime varies exponentially as expected.
+![Stencil](../Stencil/stencil.png)

@@ -1,6 +1,6 @@
 # Evolution of performance
 
-## CPU Benchmark
+## CPU Benchmark (Floops)
 
 ### Approach 1
 
@@ -39,7 +39,7 @@ gcc flags = -g -O3 -mfma -mavx2 -fopenmp -ftree-vectorize
 Since we `gcc` cannot vectorize the code, I came up with something that can be vectorized.
 
 ```c
-int vec_size = 4;
+int vec_size = 8;
 for (int i =0; i < loopcount; i++)
 {
     for (int i = 0; i < vec_size; i++)
@@ -91,7 +91,18 @@ for (int i = 0; i < omp_get_max_threads(); i++)
 
 This gives around 400 GFLOPS with both `gcc` and `icc` compiler. Using `FMA` however brings this down to 120 GFLOPS. 
 
+## Memory Benchmark (Geeps)
 
+The idea for memory benchmark is pretty straight forward. Read from as memory as much as possible, but also make sure that everything read is being used so compiler doesn’t optimize it out.
+
+```C
+ for (int i = 0; i < num_words; i++)
+{
+    e = b[i] - a[i];
+}
+```
+
+I accumulated the difference `b[i]-a[i]` in e so that compiler doesn’t remove the loop and also the time taken by the operation should be negligible. However this does not draw enough bandwidth since its on a single thread. Adding `#pragma omp parallel for` makes the code multi threaded successfully drawing the maximum bandwidth of 33.5 GB/s.
 
 ## BLAS Problems
 
@@ -235,3 +246,30 @@ for (int k = 0; k < K; k++)
 ```
 
 This gives a further speedup of $5.25\times$
+
+## 2D Stencil
+
+The code for stencil is pretty straightforward.
+
+```c
+for (i = 0; i < dimY; i++)
+{
+    for (j = 0; j < dimX; j++)
+    {
+        Y[i * dimX + j] = 0.0;
+        for (kx = 0; kx < k; kx++)
+        {
+            if (i + kx >= dimY)
+                break;
+            for (ky = 0; ky < k; ky++)
+            {
+                if (j + ky >= dimX)
+                    break;
+                Y[i * dimX + j] += X[(i + kx) * dimX + (j + ky)] * S[kx * k + ky];
+            }
+        }
+    }
+}
+```
+
+This is auto vectorized with `-O3` flag and this gives a performance of boost  of $2-3\times$. This code does benefit from parallelization but not as much as the other problems here due to loop dependencies in it. Only the outer loop can be parallelized which gives a performance boost of $4\times$.

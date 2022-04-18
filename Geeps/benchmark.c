@@ -11,10 +11,10 @@ struct Result benchmark(int num_words) {
     long long e = 0;
 
     tick(t);
-    #pragma omp parallel for
+    // #pragma omp parallel for
     for (int i = 0; i < num_words; i++)
     {
-        e = b[i] - a[i];
+        e += b[i] - a[i];
     }
     double time = tock(t);
 

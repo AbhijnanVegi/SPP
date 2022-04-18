@@ -57,18 +57,18 @@ cblas:
 	$(CC) $(CFLAGS) $(BLAS3_SRC)/main_dgemm.c -o bin/dgemm -lcblas
 	
 blis:
-	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_sscal.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
-	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_dscal.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
-	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_sdot.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
-	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_ddot.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
-	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_saxpy.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
-	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_daxpy.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_sscal.c /usr/local/lib/libblis.a -o bin/sscal -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_dscal.c /usr/local/lib/libblis.a -o bin/dscal -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_sdot.c /usr/local/lib/libblis.a -o bin/sdot -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_ddot.c /usr/local/lib/libblis.a -o bin/ddot -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_saxpy.c /usr/local/lib/libblis.a -o bin/saxpy -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS1_SRC)/main_daxpy.c /usr/local/lib/libblis.a -o bin/daxpy -lm -I/usr/local/include/blis
 
 	$(CC) $(CFLAGS) $(BLAS2_SRC)/main_sgemv.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
-	$(CC) $(CFLAGS) $(BLAS2_SRC)/main_dgemv.c /usr/local/lib/libblis.a -o bin/sgemv -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS2_SRC)/main_dgemv.c /usr/local/lib/libblis.a -o bin/dgemv -lm -I/usr/local/include/blis
 
 	$(CC) $(CFLAGS) $(BLAS3_SRC)/main_sgemm.c /usr/local/lib/libblis.a -o bin/sgemm -lm -I/usr/local/include/blis
-	$(CC) $(CFLAGS) $(BLAS3_SRC)/main_dgemm.c /usr/local/lib/libblis.a -o bin/sgemm -lm -I/usr/local/include/blis
+	$(CC) $(CFLAGS) $(BLAS3_SRC)/main_dgemm.c /usr/local/lib/libblis.a -o bin/dgemm -lm -I/usr/local/include/blis
 
 clean: 
 	rm *.o *.optrpt *.data *.data.old bin/*
